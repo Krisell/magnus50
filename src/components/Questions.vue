@@ -90,7 +90,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, defineEmits } from 'vue'
+
+const emits = defineEmits(['answer'])
 
 const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
@@ -124,6 +126,7 @@ const currentQuestion = computed(() => {
 
 const selectAnswer = (answerIndex) => {
   selectedAnswer.value = answerIndex
+  emits('answer', currentQuestion.value.question, currentQuestion.value.options[answerIndex])
 }
 
 const nextQuestion = () => {
