@@ -58,7 +58,7 @@
                     'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
                     currentQuestionIndex === 0
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900',
+                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 cursor-pointer',
                 ]"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,7 +80,7 @@
                     'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
                     currentQuestionIndex === questions.length - 1 || selectedAnswer === null
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-primary hover:bg-primary-dark text-white',
+                        : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
                 ]"
             >
                 <span>{{ currentQuestionIndex === questions.length - 1 ? 'Klar' : 'Nästa' }}</span>
