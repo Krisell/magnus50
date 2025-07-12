@@ -16,33 +16,36 @@
             </div>
         </div>
 
-        <div
-            v-if="currentQuestion"
-            class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8"
-        >
-            <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
-                {{ currentQuestion.question }}
-            </h2>
+        <Transition :name="transitionName" mode="out-in">
+            <div
+                v-if="currentQuestion"
+                :key="currentQuestion.id"
+                class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8"
+            >
+                <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
+                    {{ currentQuestion.question }}
+                </h2>
 
-            <div class="flex flex-col md:flex-row gap-4 md:gap-6">
-                <button
-                    v-for="option in currentQuestion.options"
-                    :key="option.id"
-                    @click="selectAnswer(option)"
-                    :class="[
-                        'cursor-alias hover:cursor-pointer',
-                        'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
-                        'hover:bg-primary hover:text-white hover:border-primary',
-                        'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-                        selectedAnswer === option.id
-                            ? 'bg-primary text-white border-primary'
-                            : 'bg-white text-gray-800 border-gray-300',
-                    ]"
-                >
-                    <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
-                </button>
+                <div class="flex flex-col md:flex-row gap-4 md:gap-6">
+                    <button
+                        v-for="option in currentQuestion.options"
+                        :key="option.id"
+                        @click="selectAnswer(option)"
+                        :class="[
+                            'cursor-alias hover:cursor-pointer',
+                            'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
+                            'hover:bg-primary hover:text-white hover:border-primary',
+                            'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                            selectedAnswer === option.id
+                                ? 'bg-primary text-white border-primary'
+                                : 'bg-white text-gray-800 border-gray-300',
+                        ]"
+                    >
+                        <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </Transition>
 
         <div class="flex justify-between items-center w-full max-w-2xl mb-4">
             <button
@@ -111,6 +114,7 @@ const emits = defineEmits(['answer'])
 
 const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
+const transitionName = ref('slide-left')
 
 const questions = ref([])
 
@@ -132,12 +136,14 @@ const selectAnswer = (option) => {
 
 const nextQuestion = () => {
     if (currentQuestionIndex.value < questions.value.length - 1 && selectedAnswer.value !== null) {
+        transitionName.value = 'slide-left'
         currentQuestionIndex.value++
     }
 }
 
 const previousQuestion = () => {
     if (currentQuestionIndex.value > 0) {
+        transitionName.value = 'slide-right'
         currentQuestionIndex.value--
     }
 }
@@ -157,11 +163,31 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-/* Additional mobile-specific styles if needed */
-@media (max-width: 768px) {
-    .question-card {
-        margin: 1rem;
-    }
+<style>
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-left-enter-from {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+.slide-left-leave-to {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+.slide-right-enter-from {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+.slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(100px);
 }
 </style>
