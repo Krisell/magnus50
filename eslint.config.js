@@ -5,22 +5,22 @@ import pluginVue from 'eslint-plugin-vue'
 import pluginOxlint from 'eslint-plugin-oxlint'
 
 export default defineConfig([
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
-  },
-
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
-
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
+    {
+        name: 'app/files-to-lint',
+        files: ['**/*.{js,mjs,jsx,vue}'],
     },
-  },
 
-  js.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
-  ...pluginOxlint.configs['flat/recommended'],
+    globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+        },
+    },
+
+    js.configs.recommended,
+    ...pluginVue.configs['flat/essential'],
+    ...pluginOxlint.configs['flat/recommended'],
 ])
