@@ -48,7 +48,7 @@
                     :style="{ '--i': index }"
                 >
                     <div class="flex items-center gap-4">
-                        <span class="text-lg font-bold w-8">{{ index + 1 }}.</span>
+                        <span class="text-lg font-bold w-8">{{ player.position }}.</span>
                         <span class="text-lg">{{ player.name }}</span>
                     </div>
                     <span class="text-lg font-bold">{{ player.score }} poäng</span>
@@ -100,7 +100,7 @@ const currentQuestion = computed(() => {
 })
 
 const highScore = computed(() => {
-    return sessions.value
+    const sortedPlayers = sessions.value
         .filter((session) => session.name)
         .map((session) => {
             const score = (session.answers || []).reduce((acc, answer) => {
@@ -112,6 +112,16 @@ const highScore = computed(() => {
             return { ...session, score }
         })
         .sort((a, b) => b.score - a.score)
+
+    const rankedPlayers = []
+    for (let i = 0; i < sortedPlayers.length; i++) {
+        if (i > 0 && sortedPlayers[i].score === sortedPlayers[i - 1].score) {
+            rankedPlayers.push({ ...sortedPlayers[i], position: rankedPlayers[i - 1].position })
+        } else {
+            rankedPlayers.push({ ...sortedPlayers[i], position: i + 1 })
+        }
+    }
+    return rankedPlayers
 })
 
 const setCorrectAnswer = async (questionId, optionId) => {
