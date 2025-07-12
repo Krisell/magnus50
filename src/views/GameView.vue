@@ -25,7 +25,7 @@
             </div>
         </template>
         <template v-else>
-            <GameQuestions @answer="answer" />
+            <GameQuestions @answer="answer" :answers="answers" />
         </template>
     </div>
 </template>
@@ -40,6 +40,7 @@ import { doc, onSnapshot, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 const started = ref(false)
 const name = ref('')
 const isNameLocked = ref(false)
+const answers = ref([])
 
 onSnapshot(doc(db, 'system', 'state'), (doc) => {
     started.value = doc.data().started
@@ -104,6 +105,7 @@ watch(
                     const data = doc.data()
                     name.value = data.name || ''
                     isNameLocked.value = !!data.name
+                    answers.value = data.answers || []
                 } else {
                     console.error('Session not found in database')
                     // Re-generate session?

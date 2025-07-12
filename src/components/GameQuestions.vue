@@ -1,6 +1,5 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen p-4 max-w-4xl mx-auto">
-        <!-- Question Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold mb-2">Magnus 50</h1>
             <p class="text-lg md:text-xl text-gray-600">
@@ -8,7 +7,6 @@
             </p>
         </div>
 
-        <!-- Progress Bar -->
         <div class="w-full max-w-md mb-8">
             <div class="bg-gray-200 rounded-full h-2">
                 <div
@@ -18,7 +16,6 @@
             </div>
         </div>
 
-        <!-- Question Card -->
         <div
             v-if="currentQuestion"
             class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8"
@@ -27,7 +24,6 @@
                 {{ currentQuestion.question }}
             </h2>
 
-            <!-- Answer Buttons -->
             <div class="flex flex-col md:flex-row gap-4 md:gap-6">
                 <button
                     v-for="option in currentQuestion.options"
@@ -48,9 +44,7 @@
             </div>
         </div>
 
-        <!-- Navigation Buttons -->
         <div class="flex justify-between items-center w-full max-w-2xl mb-4">
-            <!-- Previous Button -->
             <button
                 @click="previousQuestion"
                 :disabled="currentQuestionIndex === 0"
@@ -72,7 +66,6 @@
                 <span>Föregående</span>
             </button>
 
-            <!-- Next Button -->
             <button
                 @click="nextQuestion"
                 :disabled="currentQuestionIndex === questions.length - 1 || selectedAnswer === null"
@@ -83,7 +76,7 @@
                         : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
                 ]"
             >
-                <span>{{ currentQuestionIndex === questions.length - 1 ? 'Klar' : 'Nästa' }}</span>
+                <span>Nästa</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                         stroke-linecap="round"
@@ -103,9 +96,16 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { db } from '@/firebase.js'
 import { collection, query, onSnapshot } from 'firebase/firestore'
+
+const props = defineProps({
+    answers: {
+        type: Array,
+        default: () => [],
+    },
+})
 
 const emits = defineEmits(['answer'])
 
@@ -118,6 +118,13 @@ const currentQuestion = computed(() => {
     return questions.value[currentQuestionIndex.value]
 })
 
+watch(currentQuestion, (newQuestion) => {
+    if (newQuestion) {
+        const answer = props.answers.find((a) => a.questionId === newQuestion.id)
+        selectedAnswer.value = answer ? answer.answerId : null
+    }
+})
+
 const selectAnswer = (option) => {
     selectedAnswer.value = option.id
     emits('answer', currentQuestion.value.id, option.id)
@@ -126,29 +133,26 @@ const selectAnswer = (option) => {
 const nextQuestion = () => {
     if (currentQuestionIndex.value < questions.value.length - 1 && selectedAnswer.value !== null) {
         currentQuestionIndex.value++
-        selectedAnswer.value = null
     }
 }
 
 const previousQuestion = () => {
     if (currentQuestionIndex.value > 0) {
         currentQuestionIndex.value--
-        selectedAnswer.value = null
     }
 }
 
-console.log('here')
 onMounted(() => {
-    console.log('2here')
     const q = query(collection(db, 'questions'))
     onSnapshot(q, (querySnapshot) => {
-        const firestoreQuestions = []
+        const fetchedQuestions = []
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, ' => ', doc.data())
-            firestoreQuestions.push(doc.data())
+            fetchedQuestions.push({ id: doc.id, ...doc.data() })
         })
+        questions.value = fetchedQuestions.sort((a, b) => a.order - b.order)
 
-        questions.value = firestoreQuestions
+        const answer = props.answers.find((a) => a.questionId === currentQuestion.value.id)
+        selectedAnswer.value = answer ? answer.answerId : null
     })
 })
 </script>
