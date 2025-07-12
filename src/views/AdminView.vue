@@ -104,10 +104,10 @@
 
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-4">Inlagda frågor</h2>
-            <ul>
+            <TransitionGroup name="list" tag="ul">
                 <li
                     v-for="(question, index) in questions"
-                    :key="question.id"
+                    :key="question.firestoreId"
                     class="flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg"
                 >
                     <div class="flex-grow">
@@ -173,7 +173,7 @@
                         </button>
                     </div>
                 </li>
-            </ul>
+            </TransitionGroup>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -340,3 +340,20 @@ const moveQuestion = async (index, direction) => {
     })
 }
 </script>
+
+<style>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+.list-leave-active {
+    position: absolute;
+    width: calc(100% - 3rem);
+}
+</style>
