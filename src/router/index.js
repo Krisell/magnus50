@@ -19,6 +19,11 @@ const router = createRouter({
             name: 'admin',
             component: () => import('../views/AdminView.vue'),
         },
+        {
+            path: '/grading',
+            name: 'grading',
+            component: () => import('../views/GradingView.vue'),
+        },
     ],
 })
 
