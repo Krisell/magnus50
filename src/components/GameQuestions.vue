@@ -14,6 +14,23 @@
                     :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
                 ></div>
             </div>
+            
+            <!-- Question progress circles -->
+            <div class="flex justify-center gap-2 mt-4">
+                <div
+                    v-for="(question, index) in questions"
+                    :key="question.id"
+                    :class="[
+                        'w-3 h-3 rounded-full transition-all duration-300',
+                        isQuestionAnswered(question.id)
+                            ? 'bg-primary'
+                            : 'bg-gray-300 border border-black',
+                        index === currentQuestionIndex
+                            ? 'ring-2 ring-primary ring-offset-1'
+                            : ''
+                    ]"
+                ></div>
+            </div>
         </div>
 
         <Transition :name="transitionName" mode="out-in">
@@ -132,6 +149,10 @@ watch(currentQuestion, (newQuestion) => {
 const selectAnswer = (option) => {
     selectedAnswer.value = option.id
     emits('answer', currentQuestion.value.id, option.id)
+}
+
+const isQuestionAnswered = (questionId) => {
+    return props.answers.some((answer) => answer.questionId === questionId)
 }
 
 const nextQuestion = () => {
