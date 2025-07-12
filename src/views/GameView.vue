@@ -70,7 +70,7 @@ const resetSession = async () => {
     if (confirm('Är du säker på att du vill börja om? All din data kommer att raderas.')) {
         const sessionId = localStorage.getItem('sessionId')
         if (sessionId) {
-            await deleteDoc(doc(db, 'sessions', sessionId))
+            // await deleteDoc(doc(db, 'sessions', sessionId))
             localStorage.removeItem('sessionId')
         }
         window.location.reload()
