@@ -56,7 +56,12 @@
                             >{{ getMedal(player.position) }} {{ player.name }}</span
                         >
                     </div>
-                    <span class="text-lg font-bold">{{ player.score }} poäng</span>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-gray-600"
+                            >({{ player.answeredQuestions }} besvarade frågor)</span
+                        >
+                        <span class="text-lg font-bold">{{ player.score }} poäng</span>
+                    </div>
                 </li>
             </TransitionGroup>
         </div>
@@ -140,7 +145,8 @@ const highScore = computed(() => {
                 }
                 return acc
             }, 0)
-            return { ...session, score }
+            const answeredQuestions = (session.answers || []).length
+            return { ...session, score, answeredQuestions }
         })
         .sort((a, b) => b.score - a.score)
 
