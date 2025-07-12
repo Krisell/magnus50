@@ -41,7 +41,7 @@ import GameQuestions from '@/components/GameQuestions.vue'
 import { ref, watch } from 'vue'
 import { db } from '@/firebase.js'
 import { generateRandomId } from '@/helpers.js'
-import { doc, onSnapshot, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, onSnapshot, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 
 const started = ref(false)
 const name = ref('')
