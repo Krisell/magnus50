@@ -11,7 +11,7 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "format": "prettier . --write",
-    "deploy": "npm run build && firebase deploy --only hosting:magnus50"
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@prettier/plugin-oxc": "^0.0.4",
