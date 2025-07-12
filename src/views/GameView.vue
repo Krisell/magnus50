@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 items-center justify-center h-screen">
+    <div class="relative flex flex-col gap-4 items-center justify-center h-screen">
         <template v-if="!started">
             <img src="/party-hat.png" alt="Party Hat" class="w-32 h-32" />
             <h1 class="text-4xl">Magnus 50</h1>
@@ -26,6 +26,12 @@
         </template>
         <template v-else>
             <GameQuestions @answer="answer" :answers="answers" :name="name" />
+            <button
+                @click="resetSession"
+                class="absolute bottom-4 right-4 text-xs bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            >
+                Börja om
+            </button>
         </template>
     </div>
 </template>
@@ -35,7 +41,7 @@ import GameQuestions from '@/components/GameQuestions.vue'
 import { ref, watch } from 'vue'
 import { db } from '@/firebase.js'
 import { generateRandomId } from '@/helpers.js'
-import { doc, onSnapshot, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, onSnapshot, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 
 const started = ref(false)
 const name = ref('')
@@ -58,6 +64,17 @@ const lockName = () => {
         },
         { merge: true },
     )
+}
+
+const resetSession = async () => {
+    if (confirm('Är du säker på att du vill börja om? All din data kommer att raderas.')) {
+        const sessionId = localStorage.getItem('sessionId')
+        if (sessionId) {
+            await deleteDoc(doc(db, 'sessions', sessionId))
+            localStorage.removeItem('sessionId')
+        }
+        window.location.reload()
+    }
 }
 
 const answer = async (questionId, answerId) => {
