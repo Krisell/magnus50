@@ -14,7 +14,7 @@
                     :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
                 ></div>
             </div>
-            
+
             <!-- Question progress circles -->
             <div class="flex justify-center gap-2 mt-4">
                 <div
@@ -27,7 +27,7 @@
                             : 'bg-gray-300 border border-black',
                         index === currentQuestionIndex && !quizFinished
                             ? 'ring-2 ring-primary ring-offset-1'
-                            : ''
+                            : '',
                     ]"
                 ></div>
             </div>
@@ -133,7 +133,8 @@
 
         <!-- Navigation Hint -->
         <p class="text-sm text-gray-500 text-center">
-            Svara på frågan och tryck sedan på "Nästa" för att gå vidare. Du kan gå tillbaka sen och ändra ditt svar.
+            Svara på frågan och tryck sedan på "Nästa" för att gå vidare. Du kan gå tillbaka sen och
+            ändra ditt svar.
         </p>
     </div>
 </template>

@@ -61,14 +61,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { db } from '@/firebase.js'
-import {
-    collection,
-    query,
-    onSnapshot,
-    doc,
-    setDoc,
-    orderBy,
-} from 'firebase/firestore'
+import { collection, query, onSnapshot, doc, setDoc, orderBy } from 'firebase/firestore'
 
 const questions = ref([])
 const sessions = ref([])

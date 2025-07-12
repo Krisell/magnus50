@@ -7,20 +7,18 @@
                     @click="toggleGameState"
                     :class="[
                         'px-6 py-3 text-white rounded-lg cursor-pointer',
-                        gameStarted ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600',
+                        gameStarted
+                            ? 'bg-red-500 hover:bg-red-600'
+                            : 'bg-green-500 hover:bg-green-600',
                     ]"
                 >
                     {{ gameStarted ? 'Stoppa spelet' : 'Starta spelet' }}
                 </button>
                 <p class="text-lg">
                     Spelet är:
-                    <span
-                        :class="[
-                            'font-bold',
-                            gameStarted ? 'text-green-600' : 'text-red-600',
-                        ]"
-                        >{{ gameStarted ? 'Startat' : 'Stoppat' }}</span
-                    >
+                    <span :class="['font-bold', gameStarted ? 'text-green-600' : 'text-red-600']">{{
+                        gameStarted ? 'Startat' : 'Stoppat'
+                    }}</span>
                 </p>
             </div>
         </div>
@@ -352,9 +350,7 @@ const moveQuestion = async (index, direction) => {
 
 const resetCorrectAnswers = async () => {
     if (
-        window.confirm(
-            'Är du säker på att du vill radera alla rätta svar? Detta kan inte ångras.'
-        )
+        window.confirm('Är du säker på att du vill radera alla rätta svar? Detta kan inte ångras.')
     ) {
         const correctAnswersRef = doc(db, 'system', 'correctAnswers')
         await setDoc(correctAnswersRef, {})
