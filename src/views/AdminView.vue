@@ -102,7 +102,7 @@
             </form>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-4">Inlagda frågor</h2>
             <ul>
                 <li
@@ -175,6 +175,30 @@
                 </li>
             </ul>
         </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Användarsessioner</h2>
+            <ul>
+                <li
+                    v-for="session in sessions"
+                    :key="session.firestoreId"
+                    class="flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg"
+                >
+                    <div class="flex-grow">
+                        <p class="font-semibold">{{ session.name }}</p>
+                        <p class="text-gray-600">
+                            Antal svar: {{ session.answers ? session.answers.length : 0 }}
+                        </p>
+                    </div>
+                    <button
+                        @click="deleteSession(session)"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
+                    >
+                        Radera
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -194,6 +218,7 @@ import {
 } from 'firebase/firestore'
 
 const questions = ref([])
+const sessions = ref([])
 const newQuestion = ref({ question: '', options: [{ text: '' }, { text: '' }] })
 const editingQuestionId = ref(null)
 const gameStarted = ref(false)
@@ -215,6 +240,14 @@ onMounted(() => {
             firestoreQuestions.push({ firestoreId: doc.id, ...doc.data() })
         })
         questions.value = firestoreQuestions
+    })
+
+    onSnapshot(query(collection(db, 'sessions')), (querySnapshot) => {
+        const firestoreSessions = []
+        querySnapshot.forEach((doc) => {
+            firestoreSessions.push({ firestoreId: doc.id, ...doc.data() })
+        })
+        sessions.value = firestoreSessions
     })
 })
 
@@ -279,6 +312,13 @@ const deleteQuestion = (question) => {
     }
 
     deleteDoc(doc(db, 'questions', question.firestoreId))
+}
+
+const deleteSession = (session) => {
+    if (!confirm(`Är du säker på att du vill radera sessionen för ${session.name}?`)) {
+        return
+    }
+    deleteDoc(doc(db, 'sessions', session.firestoreId))
 }
 
 const moveQuestion = async (index, direction) => {
