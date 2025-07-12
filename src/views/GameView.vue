@@ -25,13 +25,13 @@
       </div>
     </template>
     <template v-else>
-      <Questions @answer="answer" />
+      <GameQuestions @answer="answer" />
     </template>
   </div>
 </template>
 
 <script setup>
-import Questions from '@/components/Questions.vue'
+import GameQuestions from '@/components/GameQuestions.vue'
 import { ref, watch } from 'vue'
 import { db } from '@/firebase.js'
 import { generateRandomId } from '@/helpers.js'
