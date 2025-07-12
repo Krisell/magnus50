@@ -18,7 +18,7 @@
                 />
                 <button
                     @click="lockName"
-                    class="bg-[#7ba9d6] hover:bg-[#5482af] cursor-pointer text-white p-2 rounded-r border border-l-0 border-black transition-colors duration-200"
+                    class="bg-primary hover:bg-primary-dark cursor-pointer text-white p-2 rounded-r border border-l-0 border-black transition-colors duration-200"
                 >
                     Starta
                 </button>

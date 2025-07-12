@@ -12,7 +12,7 @@
         <div class="w-full max-w-md mb-8">
             <div class="bg-gray-200 rounded-full h-2">
                 <div
-                    class="bg-[#7ba9d6] h-2 rounded-full transition-all duration-300"
+                    class="bg-primary h-2 rounded-full transition-all duration-300"
                     :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
                 ></div>
             </div>
@@ -36,10 +36,10 @@
                     :class="[
                         'cursor-alias hover:cursor-pointer',
                         'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
-                        'hover:bg-[#7ba9d6] hover:text-white hover:border-[#7ba9d6]',
-                        'focus:outline-none focus:ring-2 focus:ring-[#7ba9d6] focus:ring-offset-2',
+                        'hover:bg-primary hover:text-white hover:border-primary',
+                        'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                         selectedAnswer === option.id
-                            ? 'bg-[#7ba9d6] text-white border-[#7ba9d6]'
+                            ? 'bg-primary text-white border-primary'
                             : 'bg-white text-gray-800 border-gray-300',
                     ]"
                 >
@@ -80,7 +80,7 @@
                     'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
                     currentQuestionIndex === questions.length - 1 || selectedAnswer === null
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-[#7ba9d6] hover:bg-[#5482af] text-white',
+                        : 'bg-primary hover:bg-primary-dark text-white',
                 ]"
             >
                 <span>{{ currentQuestionIndex === questions.length - 1 ? 'Klar' : 'Nästa' }}</span>

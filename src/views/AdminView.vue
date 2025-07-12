@@ -78,7 +78,7 @@
                     <button
                         type="button"
                         @click="addOption"
-                        class="mt-2 px-4 py-2 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
+                        class="mt-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
                     >
                         Lägg till alternativ
                     </button>
@@ -94,7 +94,7 @@
                     </button>
                     <button
                         type="submit"
-                        class="px-6 py-3 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
+                        class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
                     >
                         {{ editingQuestionId ? 'Ändra fråga' : 'Lägg till fråga' }}
                     </button>
@@ -161,7 +161,7 @@
                         </div>
                         <button
                             @click="editQuestion(question)"
-                            class="px-4 py-2 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
+                            class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
                         >
                             Ändra
                         </button>
