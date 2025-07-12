@@ -3,6 +3,7 @@ const prettierConfig = {
     tabWidth: 4,
     semi: false,
     singleQuote: true,
+    plugins: ['@prettier/plugin-oxc'],
 }
 
 export default prettierConfig
