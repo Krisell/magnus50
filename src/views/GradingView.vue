@@ -37,6 +37,16 @@
                 </button>
             </div>
         </div>
+        <div v-else class="bg-white p-6 rounded-lg shadow-md mb-8 text-center">
+            <h2 class="text-2xl font-semibold mb-4">Lycka till!</h2>
+            <p class="text-lg mb-4">När alla är klara så rättar vi – Magnus har svaren!</p>
+            <button
+                @click="startGrading"
+                class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
+            >
+                Starta rättning
+            </button>
+        </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold mb-4">Poängställning</h2>
@@ -76,7 +86,7 @@ import { collection, query, onSnapshot, doc, setDoc, orderBy } from 'firebase/fi
 const questions = ref([])
 const sessions = ref([])
 const correctAnswers = ref({})
-const currentQuestionIndex = ref(0)
+const currentQuestionIndex = ref(-1)
 
 onMounted(() => {
     onSnapshot(query(collection(db, 'questions'), orderBy('order')), (querySnapshot) => {
@@ -105,7 +115,14 @@ onMounted(() => {
     })
 })
 
+const startGrading = () => {
+    currentQuestionIndex.value = 0
+}
+
 const currentQuestion = computed(() => {
+    if (currentQuestionIndex.value === -1) {
+        return null
+    }
     return questions.value[currentQuestionIndex.value]
 })
 
