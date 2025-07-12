@@ -161,7 +161,7 @@
                         </div>
                         <button
                             @click="editQuestion(question)"
-                            class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 cursor-pointer"
+                            class="px-4 py-2 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
                         >
                             Ändra
                         </button>
