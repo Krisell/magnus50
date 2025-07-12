@@ -22,10 +22,10 @@
                     :key="question.id"
                     :class="[
                         'w-3 h-3 rounded-full transition-all duration-300',
-                        isQuestionAnswered(question.id)
+                        answeredQuestions.includes(question.id)
                             ? 'bg-primary'
                             : 'bg-gray-300 border border-black',
-                        index === currentQuestionIndex
+                        index === currentQuestionIndex && !quizFinished
                             ? 'ring-2 ring-primary ring-offset-1'
                             : ''
                     ]"
@@ -179,9 +179,9 @@ const selectAnswer = (option) => {
     emits('answer', currentQuestion.value.id, option.id)
 }
 
-const isQuestionAnswered = (questionId) => {
-    return props.answers.some((answer) => answer.questionId === questionId)
-}
+const answeredQuestions = computed(() => {
+    return props.answers.map((answer) => answer.questionId)
+})
 
 const finishQuiz = () => {
     if (selectedAnswer.value !== null) {
