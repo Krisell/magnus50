@@ -35,7 +35,7 @@ import GameQuestions from '@/components/GameQuestions.vue'
 import { ref, watch } from 'vue'
 import { db } from '@/firebase.js'
 import { generateRandomId } from '@/helpers.js'
-import { doc, onSnapshot, setDoc } from 'firebase/firestore'
+import { doc, onSnapshot, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 
 const started = ref(false)
 const name = ref('')
@@ -59,17 +59,27 @@ const lockName = () => {
     )
 }
 
-const answer = (questionId, answer) => {
+const answer = async (questionId, answerId) => {
     const sessionId = localStorage.getItem('sessionId')
-    setDoc(
-        doc(db, 'sessions', sessionId),
-        {
-            answers: {
-                [questionId]: answer,
-            },
-        },
-        { merge: true },
-    )
+    const sessionRef = doc(db, 'sessions', sessionId)
+
+    const docSnap = await getDoc(sessionRef)
+    if (docSnap.exists()) {
+        const sessionData = docSnap.data()
+        const answers = sessionData.answers || []
+
+        const existingAnswerIndex = answers.findIndex((a) => a.questionId === questionId)
+
+        if (existingAnswerIndex > -1) {
+            answers[existingAnswerIndex].answerId = answerId
+        } else {
+            answers.push({ questionId, answerId })
+        }
+
+        await updateDoc(sessionRef, { answers })
+    } else {
+        console.error('Session not found!')
+    }
 }
 
 watch(
