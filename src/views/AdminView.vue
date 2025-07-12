@@ -1,6 +1,31 @@
 <template>
     <div class="p-8">
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Spelstatus</h2>
+            <div class="flex items-center gap-4">
+                <button
+                    @click="toggleGameState"
+                    :class="[
+                        'px-6 py-3 text-white rounded-lg',
+                        gameStarted ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600',
+                    ]"
+                >
+                    {{ gameStarted ? 'Stoppa spelet' : 'Starta spelet' }}
+                </button>
+                <p class="text-lg">
+                    Spelet är:
+                    <span
+                        :class="[
+                            'font-bold',
+                            gameStarted ? 'text-green-600' : 'text-red-600',
+                        ]"
+                        >{{ gameStarted ? 'Startat' : 'Stoppat' }}</span
+                    >
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-4">
                 {{ editingQuestionId ? 'Ändra' : 'Lägg till' }}
             </h2>
@@ -165,13 +190,25 @@ import {
     deleteDoc,
     addDoc,
     orderBy,
+    setDoc,
 } from 'firebase/firestore'
 
 const questions = ref([])
 const newQuestion = ref({ question: '', options: [{ text: '' }, { text: '' }] })
 const editingQuestionId = ref(null)
+const gameStarted = ref(false)
 
 onMounted(() => {
+    const stateRef = doc(db, 'system', 'state')
+    onSnapshot(stateRef, (docSnap) => {
+        if (docSnap.exists()) {
+            gameStarted.value = docSnap.data().started
+        } else {
+            setDoc(stateRef, { started: false })
+            gameStarted.value = false
+        }
+    })
+
     onSnapshot(query(collection(db, 'questions'), orderBy('order')), (querySnapshot) => {
         const firestoreQuestions = []
         querySnapshot.forEach((doc) => {
@@ -180,6 +217,13 @@ onMounted(() => {
         questions.value = firestoreQuestions
     })
 })
+
+const toggleGameState = async () => {
+    const stateRef = doc(db, 'system', 'state')
+    await updateDoc(stateRef, {
+        started: !gameStarted.value,
+    })
+}
 
 const addOption = () => {
     newQuestion.value.options.push({ text: '' })
