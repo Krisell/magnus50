@@ -19,7 +19,7 @@
     </div>
 
     <!-- Question Card -->
-    <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8">
+    <div v-if="currentQuestion" class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8">
       <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
         {{ currentQuestion.question }}
       </h2>
@@ -27,20 +27,20 @@
       <!-- Answer Buttons -->
       <div class="flex flex-col md:flex-row gap-4 md:gap-6">
         <button
-          v-for="(option, index) in currentQuestion.options"
-          :key="index"
-          @click="selectAnswer(index)"
+          v-for="option in currentQuestion.options"
+          :key="option.id"
+          @click="selectAnswer(option)"
           :class="[
             'cursor-alias hover:cursor-pointer',
             'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
             'hover:bg-[#7ba9d6] hover:text-white hover:border-[#7ba9d6]',
             'focus:outline-none focus:ring-2 focus:ring-[#7ba9d6] focus:ring-offset-2',
-            selectedAnswer === index 
+            selectedAnswer === option.id 
               ? 'bg-[#7ba9d6] text-white border-[#7ba9d6]' 
               : 'bg-white text-gray-800 border-gray-300'
           ]"
         >
-          <span class="text-lg md:text-xl font-medium">{{ option }}</span>
+          <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
         </button>
       </div>
     </div>
@@ -90,43 +90,24 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, defineEmits } from 'vue'
+import { ref, computed, onMounted, defineEmits } from 'vue'
+import { db } from '@/firebase.js'
+import { collection, query, onSnapshot } from "firebase/firestore";
 
 const emits = defineEmits(['answer'])
 
 const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 
-const questions = ref([
-  {
-    question: "Bo i studentkorridor med delat kök och toalett, eller bo i eget hus?",
-    options: ["Bo i studentkorridor", "Bo i eget hus"]
-  },
-  {
-    question: "Vilket är Magnus favoritdjur?",
-    options: ["Katt", "Hund"]
-  },
-  {
-    question: "Vad föredrar Magnus att göra på helger?",
-    options: ["Läsa böcker", "Titta på filmer"]
-  },
-  {
-    question: "Vilket är Magnus drömresmål?",
-    options: ["Japan", "Italien"]
-  },
-  {
-    question: "Vad dricker Magnus helst till frukost?",
-    options: ["Kaffe", "Te"]
-  }
-])
+const questions = ref([])
 
 const currentQuestion = computed(() => {
   return questions.value[currentQuestionIndex.value]
 })
 
-const selectAnswer = (answerIndex) => {
-  selectedAnswer.value = answerIndex
-  emits('answer', currentQuestion.value.question, currentQuestion.value.options[answerIndex])
+const selectAnswer = (option) => {
+  selectedAnswer.value = option.id
+  emits('answer', currentQuestion.value.id, option.id)
 }
 
 const nextQuestion = () => {
@@ -143,21 +124,21 @@ const previousQuestion = () => {
   }
 }
 
-const handleKeydown = (event) => {
-  if (event.key === 'ArrowRight') {
-    nextQuestion()
-  } else if (event.key === 'ArrowLeft') {
-    previousQuestion()
-  }
-}
-
+console.log('here')
 onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
+  console.log('2here')
+  const q = query(collection(db, "questions"));
+  onSnapshot(q, (querySnapshot) => {
+    const firestoreQuestions = [];
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());  
+      firestoreQuestions.push(doc.data());
+    });
+
+    questions.value = firestoreQuestions;
+  });
 })
 
-onUnmounted(() => {
-  document.removeEventListener('keydown', handleKeydown)
-})
 </script>
 
 <style scoped>
