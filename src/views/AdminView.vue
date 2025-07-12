@@ -6,7 +6,7 @@
                 <button
                     @click="toggleGameState"
                     :class="[
-                        'px-6 py-3 text-white rounded-lg',
+                        'px-6 py-3 text-white rounded-lg cursor-pointer',
                         gameStarted ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600',
                     ]"
                 >
@@ -58,7 +58,7 @@
                         <button
                             type="button"
                             @click="removeOption(index)"
-                            class="ml-2 text-red-500 hover:text-red-700"
+                            class="ml-2 text-red-500 hover:text-red-700 cursor-pointer"
                         >
                             <svg
                                 class="w-6 h-6"
@@ -78,7 +78,7 @@
                     <button
                         type="button"
                         @click="addOption"
-                        class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        class="mt-2 px-4 py-2 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
                     >
                         Lägg till alternativ
                     </button>
@@ -88,13 +88,13 @@
                         type="button"
                         @click="cancelEdit"
                         v-if="editingQuestionId"
-                        class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+                        class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 cursor-pointer"
                     >
                         Ångra
                     </button>
                     <button
                         type="submit"
-                        class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                        class="px-6 py-3 bg-[#7ba9d6] hover:bg-[#5482af] text-white rounded-lg cursor-pointer"
                     >
                         {{ editingQuestionId ? 'Ändra fråga' : 'Lägg till fråga' }}
                     </button>
@@ -123,7 +123,7 @@
                             <button
                                 @click="moveQuestion(index, -1)"
                                 :disabled="index === 0"
-                                class="px-2 py-1 text-gray-600 disabled:text-gray-300 hover:text-gray-900"
+                                class="px-2 py-1 text-gray-600 disabled:text-gray-300 hover:text-gray-900 cursor-pointer"
                             >
                                 <svg
                                     class="w-5 h-5"
@@ -142,7 +142,7 @@
                             <button
                                 @click="moveQuestion(index, 1)"
                                 :disabled="index === questions.length - 1"
-                                class="px-2 py-1 text-gray-600 disabled:text-gray-300 hover:text-gray-900"
+                                class="px-2 py-1 text-gray-600 disabled:text-gray-300 hover:text-gray-900 cursor-pointer"
                             >
                                 <svg
                                     class="w-5 h-5"
@@ -161,13 +161,13 @@
                         </div>
                         <button
                             @click="editQuestion(question)"
-                            class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                            class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 cursor-pointer"
                         >
                             Ändra
                         </button>
                         <button
                             @click="deleteQuestion(question)"
-                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
                         >
                             Radera
                         </button>

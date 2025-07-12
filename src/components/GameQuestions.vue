@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineEmits } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { db } from '@/firebase.js'
 import { collection, query, onSnapshot } from 'firebase/firestore'
 
