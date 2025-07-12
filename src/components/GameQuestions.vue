@@ -97,7 +97,7 @@
 
         <!-- Navigation Hint -->
         <p class="text-sm text-gray-500 text-center">
-            Använd vänster/höger piltangenter för att navigera • Svara på frågan för att gå vidare
+            Svara på frågan och tryck sedan på "Nästa" för att gå vidare. Du kan gå tillbaka sen och ändra ditt svar.
         </p>
     </div>
 </template>
