@@ -39,27 +39,35 @@
                 :key="currentQuestion.id"
                 class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8"
             >
-                <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
-                    {{ currentQuestion.question }}
-                </h2>
+                <div v-if="quizFinished" class="text-center">
+                    <h1 class="text-2xl font-bold mb-2">Tack {{ name }}!</h1>
+                    <p class="text-lg text-gray-600">
+                        Dina svar är registrerade. Vi rättar så snart alla är klara.
+                    </p>
+                </div>
+                <div v-else>
+                    <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
+                        {{ currentQuestion.question }}
+                    </h2>
 
-                <div class="flex flex-col md:flex-row gap-4 md:gap-6">
-                    <button
-                        v-for="option in currentQuestion.options"
-                        :key="option.id"
-                        @click="selectAnswer(option)"
-                        :class="[
-                            'cursor-alias hover:cursor-pointer',
-                            'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
-                            'hover:bg-primary hover:text-white hover:border-primary',
-                            'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-                            selectedAnswer === option.id
-                                ? 'bg-primary text-white border-primary'
-                                : 'bg-white text-gray-800 border-gray-300',
-                        ]"
-                    >
-                        <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
-                    </button>
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-6">
+                        <button
+                            v-for="option in currentQuestion.options"
+                            :key="option.id"
+                            @click="selectAnswer(option)"
+                            :class="[
+                                'cursor-alias hover:cursor-pointer',
+                                'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
+                                'hover:bg-primary hover:text-white hover:border-primary',
+                                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                                selectedAnswer === option.id
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-white text-gray-800 border-gray-300',
+                            ]"
+                        >
+                            <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </Transition>
@@ -87,11 +95,12 @@
             </button>
 
             <button
+                v-if="currentQuestionIndex < questions.length - 1"
                 @click="nextQuestion"
-                :disabled="currentQuestionIndex === questions.length - 1 || selectedAnswer === null"
+                :disabled="selectedAnswer === null"
                 :class="[
                     'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
-                    currentQuestionIndex === questions.length - 1 || selectedAnswer === null
+                    selectedAnswer === null
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                         : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
                 ]"
@@ -105,6 +114,20 @@
                         d="M9 5l7 7-7 7"
                     />
                 </svg>
+            </button>
+
+            <button
+                v-if="currentQuestionIndex === questions.length - 1 && !quizFinished"
+                @click="finishQuiz"
+                :disabled="selectedAnswer === null"
+                :class="[
+                    'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
+                    selectedAnswer === null
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
+                ]"
+            >
+                <span>Klar!</span>
             </button>
         </div>
 
@@ -125,6 +148,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    name: {
+        type: String,
+        default: '',
+    },
 })
 
 const emits = defineEmits(['answer'])
@@ -132,6 +159,7 @@ const emits = defineEmits(['answer'])
 const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 const transitionName = ref('slide-left')
+const quizFinished = ref(false)
 
 const questions = ref([])
 
@@ -155,6 +183,12 @@ const isQuestionAnswered = (questionId) => {
     return props.answers.some((answer) => answer.questionId === questionId)
 }
 
+const finishQuiz = () => {
+    if (selectedAnswer.value !== null) {
+        quizFinished.value = true
+    }
+}
+
 const nextQuestion = () => {
     if (currentQuestionIndex.value < questions.value.length - 1 && selectedAnswer.value !== null) {
         transitionName.value = 'slide-left'
@@ -163,6 +197,10 @@ const nextQuestion = () => {
 }
 
 const previousQuestion = () => {
+    if (quizFinished.value) {
+        quizFinished.value = false
+        return
+    }
     if (currentQuestionIndex.value > 0) {
         transitionName.value = 'slide-right'
         currentQuestionIndex.value--

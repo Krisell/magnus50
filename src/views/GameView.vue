@@ -25,7 +25,7 @@
             </div>
         </template>
         <template v-else>
-            <GameQuestions @answer="answer" :answers="answers" />
+            <GameQuestions @answer="answer" :answers="answers" :name="name" />
         </template>
     </div>
 </template>
