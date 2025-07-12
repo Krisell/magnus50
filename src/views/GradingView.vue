@@ -44,12 +44,17 @@
                 <li
                     v-for="(player, index) in highScore"
                     :key="player.id"
-                    class="flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg"
+                    :class="[
+                        'flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg',
+                        getPlayerClass(player.position),
+                    ]"
                     :style="{ '--i': index }"
                 >
                     <div class="flex items-center gap-4">
                         <span class="text-lg font-bold w-8">{{ player.position }}.</span>
-                        <span class="text-lg">{{ player.name }}</span>
+                        <span class="text-lg"
+                            >{{ getMedal(player.position) }} {{ player.name }}</span
+                        >
                     </div>
                     <span class="text-lg font-bold">{{ player.score }} poäng</span>
                 </li>
@@ -98,6 +103,32 @@ onMounted(() => {
 const currentQuestion = computed(() => {
     return questions.value[currentQuestionIndex.value]
 })
+
+const getPlayerClass = (position) => {
+    switch (position) {
+        case 1:
+            return 'bg-yellow-200'
+        case 2:
+            return 'bg-slate-200'
+        case 3:
+            return 'bg-orange-200'
+        default:
+            return ''
+    }
+}
+
+const getMedal = (position) => {
+    switch (position) {
+        case 1:
+            return '🥇'
+        case 2:
+            return '🥈'
+        case 3:
+            return '🥉'
+        default:
+            return ''
+    }
+}
 
 const highScore = computed(() => {
     const sortedPlayers = sessions.value
