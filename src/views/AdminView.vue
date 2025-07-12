@@ -26,6 +26,16 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Rättning</h2>
+            <button
+                @click="resetCorrectAnswers"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
+            >
+                Nollställ rättning
+            </button>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-4">
                 {{ editingQuestionId ? 'Ändra' : 'Lägg till' }}
             </h2>
@@ -339,9 +349,20 @@ const moveQuestion = async (index, direction) => {
         await updateDoc(questionRef, { order: q.order })
     })
 }
+
+const resetCorrectAnswers = async () => {
+    if (
+        window.confirm(
+            'Är du säker på att du vill radera alla rätta svar? Detta kan inte ångras.'
+        )
+    ) {
+        const correctAnswersRef = doc(db, 'system', 'correctAnswers')
+        await setDoc(correctAnswersRef, {})
+    }
+}
 </script>
 
-<style>
+<style scoped>
 .list-move,
 .list-enter-active,
 .list-leave-active {
