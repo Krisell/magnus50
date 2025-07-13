@@ -1,80 +1,85 @@
 <template>
     <div class="p-8">
-        <div v-if="currentQuestion" class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-2xl font-semibold mb-4">
-                Fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
-            </h2>
-            <p class="text-lg mb-4">{{ currentQuestion.question }}</p>
-            <div class="grid grid-cols-2 gap-4">
-                <div
-                    v-for="option in currentQuestion.options"
-                    :key="option.id"
-                    @click="setCorrectAnswer(currentQuestion.id, option.id)"
-                    :class="[
-                        'p-4 rounded-lg cursor-pointer border-2',
-                        correctAnswers[currentQuestion.id] === option.id
-                            ? 'bg-green-200 border-green-500'
-                            : 'bg-gray-100 hover:bg-gray-200 border-gray-300',
-                    ]"
-                >
-                    {{ option.text }}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Grading Section -->
+            <div class="lg:col-span-1">
+                <div v-if="currentQuestion" class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
+                    </h2>
+                    <p class="text-lg mb-4">{{ currentQuestion.question }}</p>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div
+                            v-for="option in currentQuestion.options"
+                            :key="option.id"
+                            @click="setCorrectAnswer(currentQuestion.id, option.id)"
+                            :class="[
+                                'p-4 rounded-lg cursor-pointer border-2',
+                                correctAnswers[currentQuestion.id] === option.id
+                                    ? 'bg-green-200 border-green-500'
+                                    : 'bg-gray-100 hover:bg-gray-200 border-gray-300',
+                            ]"
+                        >
+                            {{ option.text }}
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button
+                            @click="prevQuestion"
+                            :disabled="currentQuestionIndex === 0"
+                            class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer disabled:bg-gray-300"
+                        >
+                            Föregående
+                        </button>
+                        <button
+                            @click="nextQuestion"
+                            :disabled="currentQuestionIndex === questions.length - 1"
+                            class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer disabled:bg-gray-300"
+                        >
+                            Nästa
+                        </button>
+                    </div>
+                </div>
+                <div v-else class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h2 class="text-2xl font-semibold mb-4">Lycka till!</h2>
+                    <p class="text-lg mb-4">När alla är klara så rättar vi – Magnus har svaren!</p>
+                    <button
+                        @click="startGrading"
+                        class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
+                    >
+                        Starta rättning
+                    </button>
                 </div>
             </div>
-            <div class="flex justify-between mt-6">
-                <button
-                    @click="prevQuestion"
-                    :disabled="currentQuestionIndex === 0"
-                    class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer disabled:bg-gray-300"
-                >
-                    Föregående
-                </button>
-                <button
-                    @click="nextQuestion"
-                    :disabled="currentQuestionIndex === questions.length - 1"
-                    class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer disabled:bg-gray-300"
-                >
-                    Nästa
-                </button>
-            </div>
-        </div>
-        <div v-else class="bg-white p-6 rounded-lg shadow-md mb-8 text-center">
-            <h2 class="text-2xl font-semibold mb-4">Lycka till!</h2>
-            <p class="text-lg mb-4">När alla är klara så rättar vi – Magnus har svaren!</p>
-            <button
-                @click="startGrading"
-                class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg cursor-pointer"
-            >
-                Starta rättning
-            </button>
-        </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4 text-center">High score</h2>
-            <TransitionGroup name="list" tag="ul">
-                <li
-                    v-for="(player, index) in highScore"
-                    :key="player.id"
-                    :class="[
-                        'flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg',
-                        getPlayerClass(player),
-                    ]"
-                    :style="{ '--i': index }"
-                >
-                    <div class="flex items-center gap-4">
-                        <span class="text-lg font-bold w-8">{{ player.position }}.</span>
-                        <span class="text-lg"
-                            ><span class="text-3xl">{{ getMedal(player.position) }}</span>
-                            {{ player.name }}</span
-                        >
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-sm text-gray-600"
-                            >({{ player.answeredQuestions }} besvarade frågor)</span
-                        >
-                        <span class="text-lg font-bold">{{ player.score }} poäng</span>
-                    </div>
-                </li>
-            </TransitionGroup>
+            <!-- High Score Section -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md h-full">
+                <h2 class="text-2xl font-semibold mb-4 text-center">High score</h2>
+                <TransitionGroup name="list" tag="ul">
+                    <li
+                        v-for="(player, index) in highScore"
+                        :key="player.id"
+                        :class="[
+                            'flex items-center justify-between p-4 mb-2 border border-gray-200 rounded-lg',
+                            getPlayerAnswerClass(player),
+                        ]"
+                        :style="{ '--i': index }"
+                    >
+                        <div class="flex items-center gap-4">
+                            <span class="text-lg font-bold w-8">{{ player.position }}.</span>
+                            <span class="text-lg"
+                                >{{ getMedal(player.position) }} {{ player.name }}</span
+                            >
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-gray-600"
+                                >({{ player.answeredQuestions }} besvarade frågor)</span
+                            >
+                            <span class="text-lg font-bold">{{ player.score }} poäng</span>
+                        </div>
+                    </li>
+                </TransitionGroup>
+            </div>
         </div>
     </div>
 </template>
@@ -127,20 +132,17 @@ const currentQuestion = computed(() => {
     return questions.value[currentQuestionIndex.value]
 })
 
-const getPlayerClass = (player) => {
-    if (!currentQuestion.value) {
-        return ''
-    }
-    const correctAnswer = correctAnswers.value[currentQuestion.value.id]
-    if (!correctAnswer) {
-        return ''
-    }
+const getPlayerAnswerClass = (player) => {
+    if (!currentQuestion.value) return ''
+    
     const playerAnswer = (player.answers || []).find(
-        (answer) => answer.questionId === currentQuestion.value.id
+        answer => answer.questionId === currentQuestion.value.id
     )
-    if (playerAnswer && playerAnswer.answerId === correctAnswer) {
+    
+    if (playerAnswer && correctAnswers.value[currentQuestion.value.id] === playerAnswer.answerId) {
         return 'bg-green-200'
     }
+    
     return ''
 }
 
