@@ -39,7 +39,7 @@
             </div>
             <button
                 @click="resetSession"
-                class="fixed bottom-6 right-6 py-2 px-4 text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors duration-200 border border-red-600"
+                class="mt-8 py-2 px-4 text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors duration-200 border border-red-600"
             >
                 Börja om
             </button>
