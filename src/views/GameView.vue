@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+    <div class="min-h-screen flex flex-col items-center justify-center px-1 py-6">
         <template v-if="!started">
             <div class="bg-white border border-gray-100 shadow-sm p-12 text-center max-w-md w-full">
                 <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />

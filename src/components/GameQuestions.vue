@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen  flex flex-col items-center justify-center px-6 py-12">
+    <div class="min-h-screen  flex flex-col items-center justify-center px-2 py-6">
         <div class="w-full max-w-2xl bg-white border border-gray-100 shadow-sm">
             <div class="p-8">
                 <!-- Header -->
