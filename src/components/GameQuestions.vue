@@ -41,7 +41,7 @@
                                     :key="option.id"
                                     @click="selectAnswer(option)"
                                     :class="[
-                                        'w-full p-4 border text-left transition-all duration-200 hover:border-gray-400 hover:bg-gray-50',
+                                        'w-full p-4 border text-left transition-all duration-200 hover:border-gray-400 hover:bg-gray-50 cursor-pointer',
                                         selectedAnswer === option.id
                                             ? 'border-gray-900 bg-gray-100 text-gray-900'
                                             : 'border-gray-200 bg-white text-gray-700',
@@ -70,7 +70,7 @@
                     <button
                         @click="previousQuestion"
                         :disabled="currentQuestionIndex === 0"
-                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white"
+                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white cursor-pointer"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -82,7 +82,7 @@
                         v-if="currentQuestionIndex < questions.length - 1"
                         @click="nextQuestion"
                         :disabled="selectedAnswer === null"
-                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900"
+                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900 cursor-pointer"
                     >
                         <span>Nästa</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +94,7 @@
                         v-if="currentQuestionIndex === questions.length - 1 && !quizFinished"
                         @click="finishQuiz"
                         :disabled="selectedAnswer === null"
-                        class="py-3 px-6 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900"
+                        class="py-3 px-6 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900 cursor-pointer"
                     >
                         Klar!
                     </button>
