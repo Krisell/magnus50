@@ -49,7 +49,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Poängställning</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-center">High score</h2>
             <TransitionGroup name="list" tag="ul">
                 <li
                     v-for="(player, index) in highScore"
