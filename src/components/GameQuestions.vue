@@ -3,45 +3,25 @@
         <div class="w-full max-w-2xl bg-white border border-gray-100 shadow-sm">
             <div class="p-8">
                 <!-- Header -->
-                <div class="text-center mb-8">
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-                        Magnus 50
-                    </p>
+                <div class="text-center mb-6">
                     <h1 class="text-2xl font-light text-gray-900 mb-4">
-                        Fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
+                        Magnus 50 - fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
                     </h1>
                 </div>
 
                 <!-- Progress Bar -->
-                <div class="mb-8">
+                <div class="mb-6">
                     <div class="bg-gray-200 h-1 mb-4">
                         <div
                             class="bg-gray-900 h-1 transition-all duration-300"
                             :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
                         ></div>
                     </div>
-
-                    <!-- Progress Dots -->
-                    <div class="flex justify-center gap-2">
-                        <div
-                            v-for="(question, index) in questions"
-                            :key="question.id"
-                            :class="[
-                                'w-2 h-2 transition-all duration-300',
-                                answeredQuestions.includes(question.id)
-                                    ? 'bg-gray-900'
-                                    : 'bg-gray-300',
-                                index === currentQuestionIndex && !quizFinished
-                                    ? 'ring-1 ring-gray-600 ring-offset-1'
-                                    : '',
-                            ]"
-                        ></div>
-                    </div>
                 </div>
 
                 <!-- Question Content -->
                 <Transition :name="transitionName" mode="out-in">
-                    <div v-if="currentQuestion" :key="currentQuestion.id" class="mb-8">
+                    <div v-if="currentQuestion" :key="currentQuestion.id" class="mb-6">
                         <div v-if="quizFinished" class="text-center py-8">
                             <h2 class="text-2xl font-light text-gray-900 mb-4">Tack {{ name }}!</h2>
                             <p class="text-gray-600 leading-relaxed">
@@ -49,7 +29,7 @@
                             </p>
                         </div>
                         <div v-else>
-                            <div class="bg-gray-50 p-6 mb-8 border-l-4 border-gray-300">
+                            <div class="bg-gray-50 p-6 mb-6 border-l-4 border-gray-300">
                                 <h2 class="text-xl font-light text-gray-900 leading-relaxed">
                                     {{ currentQuestion.question }}
                                 </h2>
