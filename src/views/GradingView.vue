@@ -104,19 +104,15 @@
                                     ]">
                                         {{ player.position }}
                                     </div>
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-lg font-normal text-gray-900">{{ player.name }}</span>
-                                            <span class="text-lg">{{ getMedal(player.position) }}</span>
-                                        </div>
-                                        <div class="text-sm text-gray-500 mt-1">
-                                            {{ player.answeredQuestions }} besvarade frågor
-                                        </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-lg font-normal text-gray-900">{{ player.name }}</span>
+                                        <span class="text-lg">{{ getMedal(player.position) }}</span>
+                                        <span class="text-sm text-gray-500">({{ player.answeredQuestions }} besvarade frågor)</span>
                                     </div>
                                 </div>
-                                <div class="text-right">
-                                    <div class="text-xl font-light text-gray-900">{{ player.score }}</div>
-                                    <div class="text-sm text-gray-500">poäng</div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xl font-light text-gray-900">{{ player.score }}</span>
+                                    <span class="text-sm text-gray-500">poäng</span>
                                 </div>
                             </div>
                         </TransitionGroup>
