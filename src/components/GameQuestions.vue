@@ -1,141 +1,133 @@
 <template>
-    <div class="flex flex-col items-center justify-center h-screen p-4 max-w-4xl mx-auto">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Magnus 50</h1>
-            <p class="text-lg md:text-xl text-gray-600">
-                Fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
-            </p>
-        </div>
-
-        <div class="w-full max-w-md mb-8">
-            <div class="bg-gray-200 rounded-full h-2">
-                <div
-                    class="bg-primary h-2 rounded-full transition-all duration-300"
-                    :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
-                ></div>
-            </div>
-
-            <!-- Question progress circles -->
-            <div class="flex justify-center gap-2 mt-4">
-                <div
-                    v-for="(question, index) in questions"
-                    :key="question.id"
-                    :class="[
-                        'w-3 h-3 rounded-full transition-all duration-300',
-                        answeredQuestions.includes(question.id)
-                            ? 'bg-primary'
-                            : 'bg-gray-300 border border-black',
-                        index === currentQuestionIndex && !quizFinished
-                            ? 'ring-2 ring-primary ring-offset-1'
-                            : '',
-                    ]"
-                ></div>
-            </div>
-        </div>
-
-        <Transition :name="transitionName" mode="out-in">
-            <div
-                v-if="currentQuestion"
-                :key="currentQuestion.id"
-                class="bg-white rounded-lg shadow-lg p-6 md:p-8 w-full max-w-2xl mb-8"
-            >
-                <div v-if="quizFinished" class="text-center">
-                    <h1 class="text-2xl font-bold mb-2">Tack {{ name }}!</h1>
-                    <p class="text-lg text-gray-600">
-                        Dina svar är registrerade. Vi rättar så snart alla är klara.
+    <div class="min-h-screen  flex flex-col items-center justify-center px-6 py-12">
+        <div class="w-full max-w-2xl bg-white border border-gray-100 shadow-sm">
+            <div class="p-8">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                        Magnus 50
                     </p>
+                    <h1 class="text-2xl font-light text-gray-900 mb-4">
+                        Fråga {{ currentQuestionIndex + 1 }} av {{ questions.length }}
+                    </h1>
                 </div>
-                <div v-else>
-                    <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
-                        {{ currentQuestion.question }}
-                    </h2>
 
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-6">
-                        <button
-                            v-for="option in currentQuestion.options"
-                            :key="option.id"
-                            @click="selectAnswer(option)"
+                <!-- Progress Bar -->
+                <div class="mb-8">
+                    <div class="bg-gray-200 h-1 mb-4">
+                        <div
+                            class="bg-gray-900 h-1 transition-all duration-300"
+                            :style="{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }"
+                        ></div>
+                    </div>
+
+                    <!-- Progress Dots -->
+                    <div class="flex justify-center gap-2">
+                        <div
+                            v-for="(question, index) in questions"
+                            :key="question.id"
                             :class="[
-                                'cursor-alias hover:cursor-pointer',
-                                'flex-1 p-4 md:p-6 rounded-lg border-2 transition-all duration-200 text-center',
-                                'hover:bg-primary hover:text-white hover:border-primary',
-                                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-                                selectedAnswer === option.id
-                                    ? 'bg-primary text-white border-primary'
-                                    : 'bg-white text-gray-800 border-gray-300',
+                                'w-2 h-2 transition-all duration-300',
+                                answeredQuestions.includes(question.id)
+                                    ? 'bg-gray-900'
+                                    : 'bg-gray-300',
+                                index === currentQuestionIndex && !quizFinished
+                                    ? 'ring-1 ring-gray-600 ring-offset-1'
+                                    : '',
                             ]"
-                        >
-                            <span class="text-lg md:text-xl font-medium">{{ option.text }}</span>
-                        </button>
+                        ></div>
                     </div>
                 </div>
+
+                <!-- Question Content -->
+                <Transition :name="transitionName" mode="out-in">
+                    <div v-if="currentQuestion" :key="currentQuestion.id" class="mb-8">
+                        <div v-if="quizFinished" class="text-center py-8">
+                            <h2 class="text-2xl font-light text-gray-900 mb-4">Tack {{ name }}!</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                Dina svar är registrerade. Vi rättar så snart alla är klara.
+                            </p>
+                        </div>
+                        <div v-else>
+                            <div class="bg-gray-50 p-6 mb-8 border-l-4 border-gray-300">
+                                <h2 class="text-xl font-light text-gray-900 leading-relaxed">
+                                    {{ currentQuestion.question }}
+                                </h2>
+                            </div>
+
+                            <div class="space-y-3">
+                                <button
+                                    v-for="option in currentQuestion.options"
+                                    :key="option.id"
+                                    @click="selectAnswer(option)"
+                                    :class="[
+                                        'w-full p-4 border text-left transition-all duration-200 hover:border-gray-400 hover:bg-gray-50',
+                                        selectedAnswer === option.id
+                                            ? 'border-gray-900 bg-gray-100 text-gray-900'
+                                            : 'border-gray-200 bg-white text-gray-700',
+                                    ]"
+                                >
+                                    <div class="flex items-center gap-3">
+                                        <div :class="[
+                                            'w-4 h-4 border-2 transition-all duration-200',
+                                            selectedAnswer === option.id
+                                                ? 'border-gray-900 bg-gray-900'
+                                                : 'border-gray-300'
+                                        ]">
+                                            <div v-if="selectedAnswer === option.id" 
+                                                 class="w-2 h-2 bg-white m-0.5"></div>
+                                        </div>
+                                        <span class="font-normal">{{ option.text }}</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <button
+                        @click="previousQuestion"
+                        :disabled="currentQuestionIndex === 0"
+                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span>Föregående</span>
+                    </button>
+
+                    <button
+                        v-if="currentQuestionIndex < questions.length - 1"
+                        @click="nextQuestion"
+                        :disabled="selectedAnswer === null"
+                        class="flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900"
+                    >
+                        <span>Nästa</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <button
+                        v-if="currentQuestionIndex === questions.length - 1 && !quizFinished"
+                        @click="finishQuiz"
+                        :disabled="selectedAnswer === null"
+                        class="py-3 px-6 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900"
+                    >
+                        Klar!
+                    </button>
+                </div>
+
+                <!-- Help Text -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-500">
+                        Välj ditt svar och tryck "Nästa" för att fortsätta. Du kan gå tillbaka och ändra dina svar.
+                    </p>
+                </div>
             </div>
-        </Transition>
-
-        <div class="flex justify-between items-center w-full max-w-2xl mb-4">
-            <button
-                @click="previousQuestion"
-                :disabled="currentQuestionIndex === 0"
-                :class="[
-                    'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
-                    currentQuestionIndex === 0
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 cursor-pointer',
-                ]"
-            >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 19l-7-7 7-7"
-                    />
-                </svg>
-                <span>Föregående</span>
-            </button>
-
-            <button
-                v-if="currentQuestionIndex < questions.length - 1"
-                @click="nextQuestion"
-                :disabled="selectedAnswer === null"
-                :class="[
-                    'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
-                    selectedAnswer === null
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
-                ]"
-            >
-                <span>Nästa</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                    />
-                </svg>
-            </button>
-
-            <button
-                v-if="currentQuestionIndex === questions.length - 1 && !quizFinished"
-                @click="finishQuiz"
-                :disabled="selectedAnswer === null"
-                :class="[
-                    'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
-                    selectedAnswer === null
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-primary hover:bg-primary-dark text-white cursor-pointer',
-                ]"
-            >
-                <span>Klar!</span>
-            </button>
         </div>
-
-        <!-- Navigation Hint -->
-        <p class="text-sm text-gray-500 text-center">
-            Svara på frågan och tryck sedan på "Nästa" för att gå vidare. Du kan gå tillbaka sen och
-            ändra ditt svar.
-        </p>
     </div>
 </template>
 
@@ -228,26 +220,43 @@ onMounted(() => {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-    transition: all 0.3s ease-out;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .slide-left-enter-from {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateY(20px);
 }
 
 .slide-left-leave-to {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateY(-20px);
 }
 
 .slide-right-enter-from {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateY(20px);
 }
 
 .slide-right-leave-to {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateY(-20px);
+}
+
+/* Nordic typography */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* Clean focus states */
+button:focus {
+    outline: 2px solid #374151;
+    outline-offset: 2px;
+}
+
+/* Subtle shadows */
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 </style>
