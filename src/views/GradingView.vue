@@ -67,6 +67,12 @@
                                 Vem vann? Behövs utslagsfråga?
                             </p>
                         </div>
+                        <button
+                            @click="prevQuestion"
+                            class="py-3 px-8 text-sm font-medium transition-colors duration-200 border border-gray-300 text-gray-700 hover:bg-gray-50 cursor-pointer"
+                        >
+                            Tillbaka
+                        </button>
                     </div>
                 </div>
 
@@ -274,6 +280,10 @@ const nextQuestion = () => {
 }
 
 const prevQuestion = () => {
+    if (gradingFinished.value) {
+        gradingFinished.value = false
+        return
+    }
     if (currentQuestionIndex.value > 0) {
         currentQuestionIndex.value--
     }
