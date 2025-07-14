@@ -45,14 +45,14 @@
                             <button
                                 @click="prevQuestion"
                                 :disabled="currentQuestionIndex === 0"
-                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white"
+                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white cursor-pointer"
                             >
                                 Föregående
                             </button>
                             <button
                                 @click="nextQuestion"
                                 :disabled="currentQuestionIndex === questions.length - 1"
-                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900"
+                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900 cursor-pointer"
                             >
                                 Nästa
                             </button>
@@ -70,7 +70,7 @@
                         </div>
                         <button
                             @click="startGrading"
-                            class="inline-block py-3 px-8 text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200"
+                            class="inline-block py-3 px-8 text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
                         >
                             Starta rättning
                         </button>

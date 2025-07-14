@@ -27,7 +27,7 @@
             <h2 class="text-2xl font-semibold mb-4">Rättning</h2>
             <button
                 @click="resetCorrectAnswers"
-                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg cursor-pointer"
             >
                 Nollställ rättning
             </button>
