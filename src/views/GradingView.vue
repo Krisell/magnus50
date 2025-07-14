@@ -260,7 +260,7 @@ const prevQuestion = () => {
 .list-move,
 .list-enter-active,
 .list-leave-active {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .list-enter-from {
