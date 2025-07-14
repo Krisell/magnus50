@@ -354,6 +354,8 @@ const resetCorrectAnswers = async () => {
     ) {
         const correctAnswersRef = doc(db, 'system', 'correctAnswers')
         await setDoc(correctAnswersRef, {})
+        const stateRef = doc(db, 'system', 'state')
+        await updateDoc(stateRef, { gradingStarted: false })
     }
 }
 </script>
