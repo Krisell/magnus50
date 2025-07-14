@@ -97,7 +97,10 @@
                                 ]"
                                 :style="{ '--i': index }"
                             >
-                                <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-6 text-center">
+                                        <span v-if="playerHasCorrectAnswer(player)" class="text-lg text-amber-400">★</span>
+                                    </div>
                                     <div :class="[
                                         'w-8 h-8 flex items-center justify-center text-sm font-medium',
                                         getPositionClass(player.position)
@@ -171,14 +174,18 @@ const currentQuestion = computed(() => {
     return questions.value[currentQuestionIndex.value]
 })
 
-const getPlayerAnswerClass = (player) => {
-    if (!currentQuestion.value) return ''
+const playerHasCorrectAnswer = (player) => {
+    if (!currentQuestion.value) return false
     
     const playerAnswer = (player.answers || []).find(
         answer => answer.questionId === currentQuestion.value.id
     )
     
-    if (playerAnswer && correctAnswers.value[currentQuestion.value.id] === playerAnswer.answerId) {
+    return playerAnswer && correctAnswers.value[currentQuestion.value.id] === playerAnswer.answerId
+}
+
+const getPlayerAnswerClass = (player) => {
+    if (playerHasCorrectAnswer(player)) {
         return 'bg-emerald-50'
     }
     
