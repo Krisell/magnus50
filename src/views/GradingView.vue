@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen px-6 py-12">
+    <div class="min-h-screen px-6 py-6">
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Grading Section -->
             <div class="lg:col-span-1 space-y-6">
@@ -96,7 +96,7 @@
             <!-- High Score Section -->
             <div class="lg:col-span-2 bg-white border border-gray-100 shadow-sm">
                 <div class="p-8">
-                    <div class="mb-8 text-center">
+                    <div class="mb-2 text-center">
                         <h2 class="text-3xl font-light text-gray-900">High Score</h2>
                         <div class="w-16 h-px bg-gray-300 mx-auto mt-4"></div>
                     </div>
