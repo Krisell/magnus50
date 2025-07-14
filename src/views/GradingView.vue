@@ -334,46 +334,37 @@ const prevQuestion = () => {
     left: 0;
 }
 
-@keyframes blink-winner-color {
+@keyframes pulse-winner-bg {
     0%, 100% {
-        border-color: rgba(245, 158, 11, 0);
+        background-color: transparent;
+        box-shadow: none;
     }
     50% {
-        border-color: rgba(245, 158, 11, 0.7);
+        background-color: #fefce8; /* amber-50 */
+        box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.5);
     }
 }
 
 .blinking-winner {
-    animation: blink-winner-color 1.5s ease-in-out infinite;
-    border-width: 2px;
-    border-style: solid;
+    animation: pulse-winner-bg 2s ease-in-out infinite;
     border-radius: 0.25rem;
 }
 
 .blinking-winner.no-bottom-border {
-    border-bottom-width: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
 .blinking-winner + .blinking-winner {
-    border-top-width: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
-/* .blinking-winner:has(+ .blinking-winner) {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-} */
-
-/* Nordic typography */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     letter-spacing: -0.01em;
 }
 
-/* Clean focus states */
 button:focus,
 div[role="button"]:focus {
     outline: 2px solid #374151;
