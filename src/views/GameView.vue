@@ -1,6 +1,12 @@
 <template>
     <div class="min-h-screen flex flex-col items-center justify-center px-1 py-6">
-        <template v-if="!started">
+        <template v-if="loading">
+            <div class="p-12 text-center max-w-md w-full">
+                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
+                <h1 class="text-4xl font-light text-gray-900">Magnus 50</h1>
+            </div>
+        </template>
+        <template v-else-if="!started">
             <div class="p-12 text-center max-w-md w-full">
                 <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
                 <h1 class="text-4xl font-light text-gray-900">Magnus 50</h1>
@@ -67,6 +73,7 @@ const gradingStarted = ref(false)
 const name = ref('')
 const isNameLocked = ref(false)
 const answers = ref([])
+const loading = ref(true)
 
 onSnapshot(doc(db, 'system', 'state'), (doc) => {
     started.value = doc.data().started
@@ -125,6 +132,7 @@ watch(
     () => started.value,
     (started) => {
         if (!started) {
+            loading.value = false
             return
         }
 
@@ -136,8 +144,8 @@ watch(
                 name: '',
                 answers: [],
             })
+            loading.value = false
         } else {
-            // Load progress from database
             onSnapshot(doc(db, 'sessions', sessionId), (doc) => {
                 if (doc.exists()) {
                     const data = doc.data()
@@ -146,8 +154,9 @@ watch(
                     answers.value = data.answers || []
                 } else {
                     console.error('Session not found in database')
-                    // Re-generate session?
                 }
+
+                loading.value = false
             })
         }
     },
