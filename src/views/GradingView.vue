@@ -110,6 +110,8 @@
                                 :class="[
                                     'flex items-center justify-between py-4 px-6 transition-all duration-300',
                                     getPlayerAnswerClass(player),
+                                    { 'blinking-winner': gradingFinished && player.position === 1 },
+                                    { 'no-bottom-border': gradingFinished && player.position === 1 && isNextPlayerWinner(index) },
                                 ]"
                                 :style="{ '--i': index }"
                             >
@@ -239,6 +241,13 @@ const getMedal = (position) => {
     }
 }
 
+const isNextPlayerWinner = (index) => {
+    if (index + 1 < highScore.value.length) {
+        return highScore.value[index + 1].position === 1
+    }
+    return false
+}
+
 const highScore = computed(() => {
     const sortedPlayers = sessions.value
         .filter((session) => session.name)
@@ -316,6 +325,39 @@ const prevQuestion = () => {
     right: 0;
     left: 0;
 }
+
+@keyframes blink-winner-color {
+    0%, 100% {
+        border-color: rgba(245, 158, 11, 0);
+    }
+    50% {
+        border-color: rgba(245, 158, 11, 0.7);
+    }
+}
+
+.blinking-winner {
+    animation: blink-winner-color 1.5s ease-in-out infinite;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 0.25rem;
+}
+
+.blinking-winner.no-bottom-border {
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.blinking-winner + .blinking-winner {
+    border-top-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* .blinking-winner:has(+ .blinking-winner) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+} */
 
 /* Nordic typography */
 body {
