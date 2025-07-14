@@ -128,7 +128,7 @@
                                         {{ player.position }}
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <span class="text-lg font-normal text-gray-900">{{ player.name }}</span>
+                                        <span class="text-lg font-normal text-gray-900 max-w-[200px]">{{ player.name }}</span>
                                     </div>
                                 </div>
                                 <div class="flex items-baseline gap-4">
