@@ -188,8 +188,10 @@ onMounted(() => {
     })
 })
 
-const startGrading = () => {
+const startGrading = async () => {
     currentQuestionIndex.value = 0
+    const systemStateRef = doc(db, 'system', 'state')
+    await setDoc(systemStateRef, { gradingStarted: true }, { merge: true })
 }
 
 const currentQuestion = computed(() => {

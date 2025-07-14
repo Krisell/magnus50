@@ -6,7 +6,15 @@
                 <h1 class="text-4xl font-light text-gray-900">Magnus 50</h1>
             </div>
         </template>
-        
+
+        <template v-else-if="gradingStarted">
+            <div class="bg-white border border-gray-100 shadow p-12 text-center max-w-md w-full">
+                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
+                <h1 class="text-4xl font-light text-gray-900 mb-6">Rättningen har påbörjats!</h1>
+                <p class="text-gray-600 leading-relaxed">Nu är det för sent att ge nya svar.</p>
+            </div>
+        </template>
+
         <template v-else-if="!isNameLocked">
             <div class="bg-white border border-gray-100 shadow p-12 text-center max-w-md w-full">
                 <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
@@ -32,7 +40,7 @@
                 </div>
             </div>
         </template>
-        
+
         <template v-else>
             <div class="w-full max-w-4xl">
                 <GameQuestions @answer="answer" :answers="answers" :name="name" />
@@ -55,12 +63,14 @@ import { generateRandomId } from '@/helpers.js'
 import { doc, onSnapshot, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 
 const started = ref(false)
+const gradingStarted = ref(false)
 const name = ref('')
 const isNameLocked = ref(false)
 const answers = ref([])
 
 onSnapshot(doc(db, 'system', 'state'), (doc) => {
     started.value = doc.data().started
+    gradingStarted.value = doc.data().gradingStarted || false
 })
 
 const lockName = () => {
