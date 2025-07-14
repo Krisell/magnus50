@@ -44,7 +44,6 @@
                         <div class="flex gap-3">
                             <button
                                 @click="prevQuestion"
-                                :disabled="currentQuestionIndex === 0"
                                 class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white cursor-pointer"
                             >
                                 Föregående
@@ -133,10 +132,13 @@
                                     </div>
                                 </div>
                                 <div class="flex items-baseline gap-4">
-                                    <span class="text-sm text-gray-500 text-nowrap mr-4">({{ player.answeredQuestions }} besvarade frågor)</span>
+                                    <span v-if="player.answeredQuestions !== questions.length" class="text-sm text-gray-500 text-nowrap mr-4">({{ player.answeredQuestions }} besvarade frågor)</span>
                                     <div class="flex items-baseline gap-1">
                                         <span class="text-4xl font-light text-gray-900">{{ player.score }}</span>
                                         <span class="text-sm text-gray-500 font-light">poäng</span>
+                                    </div>
+                                    <div class="w-8">
+                                        <span v-if="player.answeredQuestions === questions.length && currentQuestionIndex === -1" class="text-emerald-500 text-3xl">✓</span>
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +299,7 @@ const prevQuestion = () => {
         gradingFinished.value = false
         return
     }
-    if (currentQuestionIndex.value > 0) {
+    if (currentQuestionIndex.value >= 0) {
         currentQuestionIndex.value--
     }
 }
