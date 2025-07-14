@@ -51,15 +51,25 @@
                             </button>
                             <button
                                 @click="nextQuestion"
-                                :disabled="currentQuestionIndex === questions.length - 1"
-                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-900 text-white hover:bg-gray-800 disabled:hover:bg-gray-900 cursor-pointer"
+                                class="flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 bg-gray-900 text-white hover:bg-gray-800 cursor-pointer"
                             >
-                                Nästa
+                                {{ currentQuestionIndex === questions.length - 1 ? 'Klar!' : 'Nästa' }}
                             </button>
                         </div>
                     </div>
                 </div>
                 
+                <div v-else-if="gradingFinished" class="bg-white border border-gray-100 shadow-sm">
+                    <div class="p-8 text-center">
+                        <div class="mb-6">
+                            <h1 class="text-3xl font-light text-gray-900 mb-3">Rättningen är klar!</h1>
+                            <p class="text-gray-600 leading-relaxed">
+                                Vem vann? Behövs utslagsfråga?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div v-else class="bg-white border border-gray-100 shadow-sm">
                     <div class="p-8 text-center">
                         <div class="mb-6">
@@ -82,7 +92,7 @@
             <div class="lg:col-span-2 bg-white border border-gray-100 shadow-sm">
                 <div class="p-8">
                     <div class="mb-8 text-center">
-                        <h2 class="text-3xl font-light text-gray-900">Resultat</h2>
+                        <h2 class="text-3xl font-light text-gray-900">High Score</h2>
                         <div class="w-16 h-px bg-gray-300 mx-auto mt-4"></div>
                     </div>
                     
@@ -135,6 +145,7 @@ const questions = ref([])
 const sessions = ref([])
 const correctAnswers = ref({})
 const currentQuestionIndex = ref(-1)
+const gradingFinished = ref(false)
 
 onMounted(() => {
     onSnapshot(query(collection(db, 'questions'), orderBy('order')), (querySnapshot) => {
@@ -168,6 +179,10 @@ const startGrading = () => {
 }
 
 const currentQuestion = computed(() => {
+    if (gradingFinished.value) {
+        return null
+    }
+
     if (currentQuestionIndex.value === -1) {
         return null
     }
@@ -253,6 +268,8 @@ const setCorrectAnswer = async (questionId, optionId) => {
 const nextQuestion = () => {
     if (currentQuestionIndex.value < questions.value.length - 1) {
         currentQuestionIndex.value++
+    } else {
+        gradingFinished.value = true
     }
 }
 
