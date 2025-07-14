@@ -119,6 +119,9 @@
                                     <div class="w-6 text-center">
                                         <span v-if="playerHasCorrectAnswer(player)" class="text-lg text-amber-400">★</span>
                                     </div>
+                                    <div class="w-8 text-center">
+                                        <span class="text-2xl">{{ getMedal(player.position) }}</span>
+                                    </div>
                                     <div :class="[
                                         'w-8 h-8 flex items-center justify-center text-sm font-medium',
                                         getPositionClass(player.position)
@@ -127,13 +130,14 @@
                                     </div>
                                     <div class="flex items-center gap-3">
                                         <span class="text-lg font-normal text-gray-900">{{ player.name }}</span>
-                                        <span class="text-lg">{{ getMedal(player.position) }}</span>
-                                        <span class="text-sm text-gray-500">({{ player.answeredQuestions }} besvarade frågor)</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-xl font-light text-gray-900">{{ player.score }}</span>
-                                    <span class="text-sm text-gray-500">poäng</span>
+                                <div class="flex items-center gap-4">
+                                    <span class="text-sm text-gray-500">({{ player.answeredQuestions }} besvarade frågor)</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-xl font-light text-gray-900">{{ player.score }}</span>
+                                        <span class="text-sm text-gray-500">poäng</span>
+                                    </div>
                                 </div>
                             </div>
                         </TransitionGroup>
