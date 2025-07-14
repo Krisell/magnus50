@@ -132,11 +132,11 @@
                                         <span class="text-lg font-normal text-gray-900">{{ player.name }}</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-4">
-                                    <span class="text-sm text-gray-500">({{ player.answeredQuestions }} besvarade frågor)</span>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-xl font-light text-gray-900">{{ player.score }}</span>
-                                        <span class="text-sm text-gray-500">poäng</span>
+                                <div class="flex items-baseline gap-4">
+                                    <span class="text-sm text-gray-500 text-nowrap mr-4">({{ player.answeredQuestions }} besvarade frågor)</span>
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="text-4xl font-light text-gray-900">{{ player.score }}</span>
+                                        <span class="text-sm text-gray-500 font-light">poäng</span>
                                     </div>
                                 </div>
                             </div>
