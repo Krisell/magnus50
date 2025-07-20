@@ -25,12 +25,17 @@
 
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
             <h2 class="text-2xl font-semibold mb-4">Rättning</h2>
-            <button
-                @click="resetCorrectAnswers"
-                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg cursor-pointer"
-            >
-                Nollställ rättning
-            </button>
+            <div v-if="gradingStarted || hasCorrectAnswers">
+                <button
+                    @click="resetCorrectAnswers"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg cursor-pointer"
+                >
+                    Nollställ rättning
+                </button>
+            </div>
+            <div v-else class="text-gray-500">
+                Ingen rättning har utförts än
+            </div>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
@@ -250,15 +255,30 @@ const sessions = ref([])
 const newQuestion = ref({ question: '', options: [{ text: '' }, { text: '' }] })
 const editingQuestionId = ref(null)
 const gameStarted = ref(false)
+const gradingStarted = ref(false)
+const hasCorrectAnswers = ref(false)
 
 onMounted(() => {
     const stateRef = doc(db, 'system', 'state')
     onSnapshot(stateRef, (docSnap) => {
         if (docSnap.exists()) {
-            gameStarted.value = docSnap.data().started
+            const data = docSnap.data()
+            gameStarted.value = data.started
+            gradingStarted.value = data.gradingStarted || false
         } else {
             setDoc(stateRef, { started: false })
             gameStarted.value = false
+            gradingStarted.value = false
+        }
+    })
+
+    const correctAnswersRef = doc(db, 'system', 'correctAnswers')
+    onSnapshot(correctAnswersRef, (docSnap) => {
+        if (docSnap.exists()) {
+            const data = docSnap.data()
+            hasCorrectAnswers.value = Object.keys(data).length > 0
+        } else {
+            hasCorrectAnswers.value = false
         }
     })
 
