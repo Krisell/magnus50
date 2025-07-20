@@ -1,45 +1,48 @@
 <template>
     <div class="min-h-screen flex flex-col items-center justify-center px-1 py-6">
         <template v-if="loading">
-            <div class="p-12 text-center max-w-md w-full">
-                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
-                <h1 class="text-4xl font-light text-gray-900">Magnus 50</h1>
-            </div>
-        </template>
-        <template v-else-if="!started">
-            <div class="p-12 text-center max-w-md w-full">
-                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
-                <h1 class="text-4xl font-light text-gray-900">Magnus 50</h1>
+            <div class="bg-white/70 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-12 text-center max-w-md w-full">
+                <div class="animate-bounce">
+                    <img src="/party-hat.png" alt="Party Hat" class="w-32 h-32 mx-auto mb-8 drop-shadow-lg" />
+                </div>
+                <h1 class="text-5xl font-extralight text-gray-800 tracking-tight">Magnus 50</h1>
+                <p class="text-gray-600 text-lg mt-6">Väntar på att spelet ska starta</p>
             </div>
         </template>
 
         <template v-else-if="gradingStarted">
-            <div class="bg-white border border-gray-100 shadow p-12 text-center max-w-md w-full">
-                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
-                <h1 class="text-4xl font-light text-gray-900 mb-6">Rättningen har påbörjats!</h1>
-                <p class="text-gray-600 leading-relaxed">Nu är det för sent att ge nya svar.</p>
+            <div class="bg-white/70 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-12 text-center max-w-md w-full">
+                <div class="relative">
+                    <img src="/party-hat.png" alt="Party Hat" class="w-28 h-28 mx-auto mb-8 drop-shadow-lg grayscale" />
+                    <div class="absolute -top-1 -right-1 text-xl">⏱️</div>
+                </div>
+                <h1 class="text-4xl font-extralight text-gray-800 mb-6 tracking-tight">Rättningen har påbörjats!</h1>
+                <p class="text-gray-600 leading-relaxed text-lg">Nu är det för sent att ge nya svar.</p>
             </div>
         </template>
 
         <template v-else-if="!isNameLocked">
-            <div class="bg-white border border-gray-100 shadow p-12 text-center max-w-md w-full">
-                <img src="/party-hat.png" alt="Party Hat" class="w-24 h-24 mx-auto mb-6" />
-                <h1 class="text-4xl font-light text-gray-900 mb-6">Magnus 50</h1>
-                <div class="mb-8">
-                    <h2 class="text-xl font-light text-gray-900 mb-6">Ange ert lagnamn</h2>
+            <div class="bg-white/70 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-12 text-center max-w-md w-full">
+                <div class="relative mb-8">
+                    <img src="/party-hat.png" alt="Party Hat" class="w-32 h-32 mx-auto drop-shadow-lg" />
+                    <div class="absolute -top-2 -right-2 text-2xl animate-bounce">🎉</div>
                 </div>
-                <div class="flex">
+                <h1 class="text-5xl font-extralight text-gray-800 mb-8 tracking-tight">Magnus 50</h1>
+                <div class="mb-8">
+                    <h2 class="text-xl font-light text-gray-700 mb-6">Ange ert lagnamn</h2>
+                </div>
+                <div class="flex rounded-2xl overflow-hidden shadow-lg">
                     <input
                         type="text"
                         v-model="name"
                         required
                         placeholder="Lagnamn 🥳"
                         @keydown.enter="lockName"
-                        class="flex-1 py-3 px-4 border border-gray-300 border-r-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-gray-600 transition-colors duration-200"
+                        class="flex-1 py-4 px-6 border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 text-lg"
                     />
                     <button
                         @click="lockName"
-                        class="cursor-pointer py-3 px-6 text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200 border border-gray-900"
+                        class="cursor-pointer py-4 px-8 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                         Starta
                     </button>
@@ -53,7 +56,7 @@
             </div>
             <button
                 @click="resetSession"
-                class="mt-8 py-2 px-4 text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors duration-200 border border-red-600 cursor-pointer"
+                class="mt-8 py-3 px-6 text-sm font-medium bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-200 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
             >
                 Börja om
             </button>
