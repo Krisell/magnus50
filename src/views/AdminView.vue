@@ -111,7 +111,17 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Inlagda frågor</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold">Inlagda frågor</h2>
+                <button
+                    @click="copyQuestionsAsPrompt"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer"
+                    :disabled="questions.length === 0"
+                    :class="{ 'opacity-50 cursor-not-allowed': questions.length === 0 }"
+                >
+                    Kopiera som AI-prompt
+                </button>
+            </div>
             <TransitionGroup name="list" tag="ul">
                 <li
                     v-for="(question, index) in questions"
@@ -185,7 +195,17 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Användarsessioner</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold">Användarsessioner</h2>
+                <button
+                    @click="deleteAllSessions"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg cursor-pointer"
+                    :disabled="sessions.length === 0"
+                    :class="{ 'opacity-50 cursor-not-allowed': sessions.length === 0 }"
+                >
+                    Radera alla sessioner
+                </button>
+            </div>
             <ul>
                 <li
                     v-for="session in sessions"
@@ -327,6 +347,23 @@ const deleteSession = (session) => {
         return
     }
     deleteDoc(doc(db, 'sessions', session.firestoreId))
+}
+
+const deleteAllSessions = async () => {
+    if (!confirm(`Är du säker på att du vill radera ALLA ${sessions.value.length} sessioner? Detta kan inte ångras.`)) {
+        return
+    }
+    
+    const deletePromises = sessions.value.map(session => 
+        deleteDoc(doc(db, 'sessions', session.firestoreId))
+    )
+    
+    try {
+        await Promise.all(deletePromises)
+    } catch (error) {
+        console.error('Error deleting sessions:', error)
+        alert('Ett fel uppstod när sessionerna skulle raderas')
+    }
 }
 
 const moveQuestion = async (index, direction) => {
