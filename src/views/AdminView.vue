@@ -366,6 +366,39 @@ const deleteAllSessions = async () => {
     }
 }
 
+const copyQuestionsAsPrompt = async () => {
+    const sortedQuestions = [...questions.value].sort((a, b) => a.order - b.order)
+    
+    let prompt = `Please answer the following quiz questions. For each question, select the best answer from the provided options and provide a clear, concise explanation for your choice. This will be used for manual grading of a quiz game.
+
+# Quiz Questions
+
+`
+
+    sortedQuestions.forEach((question, index) => {
+        prompt += `## Question ${index + 1}
+**${question.question}**
+
+Options:
+`
+        question.options.forEach((option) => {
+            prompt += `- ${option.text}\n`
+        })
+        
+        prompt += `\n**Your answer:** \n\n**Explanation:** \n\n---\n\n`
+    })
+
+    prompt += `Please provide your answers in the format above, clearly stating your chosen option and explanation for each question.`
+
+    try {
+        await navigator.clipboard.writeText(prompt)
+        alert('AI-prompt kopierad till urklipp!')
+    } catch (error) {
+        console.error('Error copying to clipboard:', error)
+        alert('Kunde inte kopiera till urklipp. Försök igen.')
+    }
+}
+
 const moveQuestion = async (index, direction) => {
     const questionsInCurrentOrder = [...questions.value].sort((a, b) => a.order - b.order)
     const questionToMove = questionsInCurrentOrder[index]
