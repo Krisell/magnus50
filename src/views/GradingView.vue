@@ -107,7 +107,7 @@
                                 v-for="(player, index) in highScore"
                                 :key="player.id"
                                 :class="[
-                                    'flex items-center justify-between py-4 px-6 transition-all duration-300',
+                                    'flex items-center justify-between py-2 px-6 transition-all duration-300',
                                     getPlayerAnswerClass(player),
                                     { 'blinking-winner': gradingFinished && player.position === 1 },
                                     { 'no-bottom-border': gradingFinished && player.position === 1 && isNextPlayerWinner(index) },
@@ -118,11 +118,11 @@
                                     <div class="w-6 text-center">
                                         <span v-if="playerHasCorrectAnswer(player)" class="text-lg text-amber-400">★</span>
                                     </div>
-                                    <div class="w-8 text-center">
-                                        <span v-if="currentQuestionIndex >= 0" class="text-2xl">{{ getMedal(player.position) }}</span>
+                                    <div class="w-12 text-center">
+                                        <span v-if="currentQuestionIndex >= 0" class="text-4xl">{{ getMedal(player.position) }}</span>
                                     </div>
                                     <div :class="[
-                                        'w-8 h-8 flex items-center justify-center text-sm font-medium',
+                                        'w-12 h-12 flex items-center justify-center text-lg font-medium rounded-lg',
                                         getPositionClass(player.position)
                                     ]">
                                         {{ player.position }}
