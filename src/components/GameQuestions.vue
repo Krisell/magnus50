@@ -37,9 +37,10 @@
 
                             <div class="space-y-3">
                                 <button
-                                    v-for="option in currentQuestion.options"
+                                    v-for="(option, index) in currentQuestion.options"
                                     :key="option.id"
                                     @click="selectAnswer(option)"
+                                    :data-testid="`answer-${index}`"
                                     :class="[
                                         'w-full p-4 border text-left transition-all duration-200 hover:border-gray-400 hover:bg-gray-50 cursor-pointer',
                                         selectedAnswer === option.id
