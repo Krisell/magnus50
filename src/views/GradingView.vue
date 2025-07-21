@@ -119,7 +119,7 @@
                                         <span v-if="playerHasCorrectAnswer(player)" class="text-lg text-amber-400">★</span>
                                     </div>
                                     <div class="w-8 text-center">
-                                        <span class="text-2xl">{{ getMedal(player.position) }}</span>
+                                        <span v-if="currentQuestionIndex >= 0" class="text-2xl">{{ getMedal(player.position) }}</span>
                                     </div>
                                     <div :class="[
                                         'w-8 h-8 flex items-center justify-center text-sm font-medium',
