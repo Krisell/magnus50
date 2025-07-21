@@ -116,7 +116,7 @@
                             >
                                 <div class="flex items-center gap-4">
                                     <div class="w-6 text-center">
-                                        <span v-if="playerHasCorrectAnswer(player)" class="text-lg text-amber-400">★</span>
+                                        <span v-if="playerHasCorrectAnswer(player)" class="text-3xl text-amber-400">★</span>
                                     </div>
                                     <div class="w-12 text-center">
                                         <span v-if="currentQuestionIndex >= 0" class="text-4xl">{{ getMedal(player.position) }}</span>
