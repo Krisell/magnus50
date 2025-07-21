@@ -25,7 +25,6 @@
             <div class="bg-white/70 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-12 text-center max-w-md w-full">
                 <div class="relative mb-8">
                     <img src="/party-hat.png" alt="Party Hat" class="w-32 h-32 mx-auto drop-shadow-lg" />
-                    <div class="absolute -top-2 -right-2 text-2xl animate-bounce">🎉</div>
                 </div>
                 <h1 class="text-5xl font-extralight text-gray-800 mb-8 tracking-tight">Magnus 50</h1>
                 <div class="mb-8">
@@ -42,7 +41,7 @@
                     />
                     <button
                         @click="lockName"
-                        class="cursor-pointer py-4 px-8 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        class="cursor-pointer py-4 px-8 text-sm font-medium bg-primary text-white"
                     >
                         Starta
                     </button>
