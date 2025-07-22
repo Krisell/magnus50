@@ -29,18 +29,18 @@
                 <div class="mb-8">
                     <h2 class="text-xl font-light text-gray-700 mb-6">Ange ert lagnamn</h2>
                 </div>
-                <div class="flex rounded-2xl overflow-hidden shadow-lg">
+                <div class="space-y-4">
                     <input
                         type="text"
                         v-model="name"
                         required
                         placeholder="Lagnamn 🥳"
                         @keydown.enter="lockName"
-                        class="flex-1 py-4 px-6 border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 text-lg"
+                        class="w-full py-4 px-6 border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 text-lg rounded-2xl shadow-lg"
                     />
                     <button
                         @click="lockName"
-                        class="cursor-pointer py-4 px-8 text-sm font-medium bg-primary text-white"
+                        class="cursor-pointer w-full py-4 px-8 text-sm font-medium bg-primary text-white rounded-2xl shadow-lg"
                     >
                         Starta
                     </button>
