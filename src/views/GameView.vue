@@ -13,8 +13,7 @@
         <template v-else-if="gradingStarted">
             <div class="bg-white/70 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-12 text-center max-w-md w-full">
                 <div class="relative">
-                    <img src="/party-hat.png" alt="Party Hat" class="w-28 h-28 mx-auto mb-8 drop-shadow-lg grayscale" />
-                    <div class="absolute -top-1 -right-1 text-xl">⏱️</div>
+                    <img src="/party-hat.png" alt="Party Hat" class="w-28 h-28 mx-auto mb-8 drop-shadow-lg" />
                 </div>
                 <h1 class="text-4xl font-extralight text-gray-800 mb-6 tracking-tight">Rättningen har påbörjats!</h1>
                 <p class="text-gray-600 leading-relaxed text-lg">Nu är det för sent att ge nya svar.</p>
