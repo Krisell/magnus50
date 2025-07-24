@@ -38,7 +38,7 @@
                             <div class="space-y-3">
                                 <button
                                     v-for="(option, index) in currentQuestion.options"
-                                    :key="option.id"
+                                    :key="`${index}-${option.id}`"
                                     @click="selectAnswer(option)"
                                     :data-testid="`answer-${index}`"
                                     :class="[
