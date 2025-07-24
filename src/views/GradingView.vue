@@ -17,7 +17,7 @@
                         <div class="space-y-3 mb-8">
                             <div
                                 v-for="option in currentQuestion.options"
-                                :key="option.id"
+                                :key="`${currentQuestion}-${option.id}`"
                                 @click="setCorrectAnswer(currentQuestion.id, option.id)"
                                 :class="[
                                     'p-4 border cursor-pointer transition-all duration-200 ease-in-out',
