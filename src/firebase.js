@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
+// The firebaseConfig below is no longer valid. Please bring your own Firebase project.
 const firebaseConfig = {
     apiKey: 'AIzaSyA0a3N7Q_JDx4znHi-6eQfsW3r9BSwdrLQ',
     authDomain: 'magnuskrisell50.firebaseapp.com',
