@@ -13,6 +13,9 @@ Note that the build uses the RC of Rolldown-Vite. Use at your own risk.
 `npm run deploy`
 
 ## Routes
-`/` The game.
-`/adminmk` Admin page to edit questions and control game flow.
-`/grading` High Score and grading page, intended to be presented during the game.
+
+| Route | Description |
+|-------|-------------|
+| `/` | The game. |
+| `/adminmk` | Admin page to edit questions and control game flow. |
+| `/grading` | High Score and grading page, intended to be presented during the game. |
