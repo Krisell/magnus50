@@ -1,29 +1,18 @@
-# magnus50
+# Magnus 50
+A small game app built for a birthday celebration. The project is setup to be deployed to Firebase, and use a Firebase database for realtime data sync. Bring your own Firebase project.
 
-This template should help get you started developing with Vue 3 in Vite.
+## Start a dev server
+`npm run dev`
 
-## Recommended IDE Setup
+## Build static site for production
+`npm run build`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Note that the build uses the RC of Rolldown-Vite. Use at your own risk.
 
-## Customize configuration
+## Deploy to Firebase
+`npm run deploy`
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+## Routes
+`/` The game.
+`/adminmk` Admin page to edit questions and control game flow.
+`/grading` High Score and grading page, intended to be presented during the game.
